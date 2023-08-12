@@ -1,4 +1,5 @@
 const Home = () => {
+  console.log("aaa");
   return <div>ああああ</div>;
 };
 
