@@ -1,8 +1,17 @@
+:root {
+  --len__header__height: 50px;
+  --color_theme_back: white;
+  --color_theme_text: black;
+  --color_theme_line: gray;
+}
+
 * {
   padding: 0;
   margin: 0;
   text-decoration: none;
   box-sizing: border-box;
+  color: var(--color_theme_text);
+  background: var(--color_theme_back);
   font-family:
     Open Sans,
     sans-serif;
@@ -14,4 +23,13 @@ html {
 
 img {
   pointer-events: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color_theme_back: black;
+    --color_theme_text: #ddd;
+  }
+  img {
+    filter: brightness(80%);
+  }
 }
