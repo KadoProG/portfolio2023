@@ -1,7 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import styled from "styled-components";
 
-const DivHeaderHamburger = styled.div<{ isChecked: boolean }>`
+const DivHeaderHamburger = styled.div<{ $ischecked: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +35,7 @@ const DivHeaderHamburger = styled.div<{ isChecked: boolean }>`
       top: 10px;
     }
     ${(props) =>
-      props.isChecked
+      props.$ischecked
         ? "transform: rotate(45deg);\
            &::before {transform: translateY(10px); opacity: 0;}\
            &::after {transform: translateY(-10px) rotate(-90deg);}\
@@ -51,7 +53,7 @@ const HeaderHamburger = () => {
   };
   const [isChecked, setIsChecked] = useState<boolean>(false);
   return (
-    <DivHeaderHamburger isChecked={isChecked} onClick={handleClick}>
+    <DivHeaderHamburger $ischecked={isChecked} onClick={handleClick}>
       <span></span>
     </DivHeaderHamburger>
   );
