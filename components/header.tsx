@@ -11,9 +11,13 @@ const DivHeader = styled.div`
   padding-bottom: 1px;
   height: var(--len__header__height);
   border-bottom: 1px solid var(--color_theme_line);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 `;
 
-const Header = () => {
+const HeaderOrigin = () => {
   return (
     <DivHeader>
       <HeaderHamburger />
@@ -23,4 +27,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderOrigin;
