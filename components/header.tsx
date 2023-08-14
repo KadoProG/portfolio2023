@@ -17,7 +17,7 @@ const DivHeader = styled.div`
   width: 100%;
 `;
 
-const Header = () => {
+const HeaderOrigin = () => {
   return (
     <DivHeader>
       <HeaderHamburger />
@@ -27,4 +27,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderOrigin;
