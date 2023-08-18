@@ -14,6 +14,7 @@ const DivForm = styled.div`
 const DivFormSection = styled.div`
   /* & > div { */
   display: flex;
+  flex-wrap: wrap;
   /* } */
   & span {
     font-size: 20px;
@@ -21,9 +22,13 @@ const DivFormSection = styled.div`
   }
 `;
 
-const InputText = styled.input`
+export const InputTextOrigin = styled.input<{
+  $fontSize?: number;
+  $width?: number;
+}>`
+  font-size: ${(props) => (props.$fontSize ? `${props.$fontSize}px` : "16px")};
+  width: ${(props) => (props.$width ? `${props.$width}px` : "100%")};
   border: 1px solid var(--color_theme_line);
-  font-size: 20px;
   line-height: 30px;
   height: 30px;
 `;
@@ -40,6 +45,7 @@ const FormQuestions = () => {
     { name: "プロセス単位", question: ["何のタスクで"] },
     { name: "日単位", question: ["何日に◯回", ""] },
     { name: "週単位" },
+    { name: "週確定" },
     { name: "月単位" },
     { name: "年単位" },
   ];
@@ -71,7 +77,7 @@ const FormQuestions = () => {
     <DivForm>
       <div>
         <p>タスクのタイトル</p>
-        <InputText type="text" placeholder="タスク名" />
+        <InputTextOrigin $fontSize={20} type="text" placeholder="タスク名" />
       </div>
 
       <p>タスクの子プロセス</p>
@@ -91,7 +97,8 @@ const FormQuestions = () => {
                 );
               })}
             </SelectTaskRoutines>
-            <InputText
+            <InputTextOrigin
+              $width={200}
               type="text"
               placeholder="タスク名"
               value={userTask.title}
