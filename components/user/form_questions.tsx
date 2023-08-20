@@ -2,7 +2,11 @@
 
 import { styled } from "styled-components";
 import { useState } from "react";
-import { InputTextOrigin } from "./htmlOriginElements";
+import {
+  ButtonOrigin,
+  ElementIconPlus,
+  InputTextOrigin,
+} from "./htmlOriginElements";
 import FormQuestionChild from "./form_question_child";
 import { userChildTask, userTask } from "./types";
 
@@ -45,6 +49,23 @@ const FormQuestions = () => {
     setUserTask(newUserTask);
   };
 
+  const handleAddClick = () => {
+    const newUserChildTask: userChildTask[] = [
+      ...userTask.tasks,
+      { name: "", routineIndex: 0, timeType: "week" },
+    ];
+
+    setUserTask({ ...userTask, tasks: newUserChildTask });
+  };
+
+  const deleteUserChildTask = (row: number) => {
+    const newUserChildTask = userTask.tasks.filter(
+      (task, index) => index !== row
+    );
+
+    setUserTask({ ...userTask, tasks: newUserChildTask });
+  };
+
   return (
     <DivForm>
       <div>
@@ -63,13 +84,19 @@ const FormQuestions = () => {
         return (
           <FormQuestionChild
             key={index}
+            taskCount={index}
             userChildTask={userChildTask}
             setUserChildTask={(userChildTask) =>
               handleRoutineChange(index, userChildTask)
             }
+            deleteUserChildTask={() => deleteUserChildTask(index)}
           />
         );
       })}
+      <ButtonOrigin $width={200} onClick={() => handleAddClick()}>
+        <ElementIconPlus height={28} />
+        <span>小タスクを追加</span>
+      </ButtonOrigin>
       <button>送信する</button>
     </DivForm>
   );

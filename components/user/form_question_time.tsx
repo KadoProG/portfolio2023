@@ -31,7 +31,7 @@ export default FormQuestionTime;
 const FromQuestionTimeSetting = () => {
   return (
     <>
-      <InputTextOrigin />~<InputTextOrigin />
+      <InputTextOrigin $width={50} />~<InputTextOrigin $width={50} />
     </>
   );
 };
