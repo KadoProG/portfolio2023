@@ -1,21 +1,9 @@
 import { ChangeEvent, useState } from "react";
-import { styled } from "styled-components";
-import { InputTextNum, SelectOrigin } from "./form_question_routine";
-
-export const CheckboxOrigin = styled.label<{ $ischecked: boolean }>`
-  border: 1px solid var(--color_theme_line);
-  font-size: 16px !important;
-  line-height: 30px;
-  height: 30px;
-  display: inline-block;
-  cursor: pointer;
-  /* padding-right: 30px; */
-  ${(props) => (props.$ischecked ? "" : "")}
-
-  & input[type=checkbox] {
-    margin: 0 4px;
-  }
-`;
+import {
+  CheckboxOrigin,
+  InputTextOrigin,
+  SelectOrigin,
+} from "./htmlOriginElements";
 
 const FormQuestionTime = () => {
   const [isAddTime, setIsAddTime] = useState<boolean>(false);
@@ -43,7 +31,7 @@ export default FormQuestionTime;
 const FromQuestionTimeSetting = () => {
   return (
     <>
-      <InputTextNum />~<InputTextNum />
+      <InputTextOrigin />~<InputTextOrigin />
     </>
   );
 };

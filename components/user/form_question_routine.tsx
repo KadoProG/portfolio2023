@@ -1,23 +1,83 @@
 import { styled } from "styled-components";
-import { CheckboxOrigin } from "./form_question_time";
 import { useState } from "react";
+import { CheckboxOrigin, SelectOrigin } from "./htmlOriginElements";
+import {
+  ARRAY_WEEK,
+  WEEK_OPTION,
+  userChildTask,
+  userChildTask_week,
+} from "./types";
 
 type Props = {
   index: number;
+  userChildTask: userChildTask;
+  setUserChildTask(userChildTask: userChildTask): void;
 };
 
 const FormQuestionRoutine = (props: Props) => {
   const index = props.index;
+  const userChildTask = props.userChildTask;
+
+  // ===============データ取得処理「Week」
+  const userChildTaskWeek = () => {
+    if (userChildTask.week) {
+      return userChildTask.week;
+    } else {
+      // 子要素の初期化
+      const newWeek: userChildTask_week = {
+        require: 0,
+        receive: [0, 0, 0, 0, 0, 0, 0, 0],
+        start: 0,
+      };
+      return newWeek;
+    }
+  };
+
+  // ===============データ取得処理「WeekConfirm」
+  const userChildTaskWeekConfirm = () => {
+    if (userChildTask.weekConfirm) {
+      return userChildTask.weekConfirm;
+    } else {
+      const newWeek: userChildTask_week = {
+        require: 0,
+        receive: [0, 0, 0, 0, 0, 0, 0, 0],
+        start: 0,
+      };
+      return newWeek;
+    }
+  };
+
+  // ===============ユーザの変更イベント処理「Week」
+  const handleWeekChange = (week: userChildTask_week) => {
+    const newUserChildTask = { ...userChildTask, week: week };
+    props.setUserChildTask(newUserChildTask);
+  };
+
+  // ===============ユーザの変更イベント処理「WeekConfirm」
+  const handleWeekConfirmChange = (weekConfirm: userChildTask_week) => {
+    const newUserChildTask = { ...userChildTask, weekConfirm: weekConfirm };
+    props.setUserChildTask(newUserChildTask);
+  };
 
   switch (index) {
     case 0:
-      return <FormQuestion_0 />;
+      return (
+        <FormQuestion_2
+          week={userChildTaskWeek()}
+          setWeek={(week) => handleWeekChange(week)}
+        />
+      );
+    // return <FormQuestion_0 />;
     case 1:
-      return <FormQuestion_1 />;
+      return (
+        <FormQuestion_3
+          weekConfirm={userChildTaskWeekConfirm()}
+          setWeekConfirm={(weekConfirm) => handleWeekConfirmChange(weekConfirm)}
+        />
+      );
+    // return <FormQuestion_1 />;
     case 2:
-      return <FormQuestion_2 />;
     case 3:
-      return <FormQuestion_3 />;
   }
 
   return <></>;
@@ -32,12 +92,6 @@ export const InputTextNum = styled.input`
   height: 30px;
   width: 40px;
   text-align: right;
-`;
-
-export const SelectOrigin = styled.select`
-  font-size: 16px;
-  line-height: 30px;
-  height: 30px;
 `;
 
 export const FormQuestion_0 = () => {
@@ -57,102 +111,179 @@ export const FormQuestion_1 = () => {
     </>
   );
 };
-export const FormQuestion_2 = () => {
-  // ◯週間に◯回
+
+const DivFormQuestion_2 = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+`;
+
+type Props_2 = {
+  week: userChildTask_week;
+  setWeek(week: userChildTask_week): void;
+};
+
+export const FormQuestion_2 = (props: Props_2) => {
+  const weekData = props.week;
+
+  const handleChange = (row: number, handleNum: number) => {
+    const newWeekData_receive = weekData.receive.map((num, index) => {
+      if (row === index) return handleNum;
+      return num;
+    });
+
+    const newWeekData: userChildTask_week = {
+      ...weekData,
+      receive: newWeekData_receive,
+    };
+
+    props.setWeek(newWeekData);
+  };
+
   return (
-    <>
-      <SelectOrigin>
-        <option value="">平日のみ</option>
-        <option value="">休･祝日のみ</option>
-        <option value="">全ての日</option>
-      </SelectOrigin>
-      <InputTextNum type={"text"} />
-      <span>週間に</span>
-      <InputTextNum type={"text"} />
-      <span>回</span>
-    </>
+    <DivFormQuestion_2>
+      {ARRAY_WEEK.map((weekName, index) => {
+        return (
+          <FormQuestion_2_0
+            key={index}
+            name={weekName}
+            num={weekData.receive[index] | 0}
+            setNum={(num) => handleChange(index, num)}
+          />
+        );
+      })}
+    </DivFormQuestion_2>
   );
 };
 
-const DivCheckbox = styled.div`
-  height: 30px;
-  line-height: 30px;
-  & label {
-    line-height: 30px;
+const DivFormQuestion_2_0 = styled.div`
+  height: 60px;
+  border: 1px solid var(--color_theme_line);
+  /* flex: 1; */
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  & > button {
+    width: 100%;
+    height: 20px;
+    border: none;
+    border-top: 1px solid var(--color_theme_line);
   }
 `;
 
-export const FormQuestion_3 = () => {
-  // ステートの変数軍
-  const [weekStatuses, setWeekStatuses] = useState([
-    { name: "月", isChecked: false },
-    { name: "火", isChecked: false },
-    { name: "水", isChecked: false },
-    { name: "木", isChecked: false },
-    { name: "金", isChecked: false },
-    { name: "土", isChecked: false },
-    { name: "日", isChecked: false },
-  ]);
+const SpanFormQuestion_2_0 = styled.span<{ $color: string }>`
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  ${(props) => (props.$color ? "background:" + props.$color : "")}
+`;
 
-  const [weekTypeIndex, setWeekTypeIndex] = useState<string>("-1");
-  const [isHolidayExist, setIsHolidayExist] = useState<boolean>(false);
+type Props_2_0 = {
+  name: string;
+  num: number;
+  setNum(num: number): void;
+};
+const FormQuestion_2_0 = (props: Props_2_0) => {
+  const name = props.name;
+  const num = props.num;
+  const color = () => {
+    switch (num) {
+      case 0:
+        return "var(--color_theme_back)";
+      case 1:
+        return "green";
+      case 2:
+        return "blue";
+      case 3:
+        return "red";
+      default:
+        return "var(--color_theme_back)";
+    }
+  };
 
-  // 定数的なやつ
-  const weekTypes = [
-    { name: "平日のみ", targetWeek: ["月", "火", "水", "木", "金"] },
-    { name: "休･祝日のみ", targetWeek: ["土", "日"] },
-    {
-      name: "全ての日",
-      targetWeek: ["月", "火", "水", "木", "金", "土", "日"],
-    },
-    { name: "カスタム", targetWeek: null },
-  ];
+  const handleNumChange = (handleNum: number) => {
+    const preNum = num + handleNum;
+    // 0~3の4通りのみ それ以外は何もしない
+    if (preNum === 4 || preNum === -1) return;
+    props.setNum(preNum);
+  };
+
+  return (
+    <DivFormQuestion_2_0>
+      <SpanFormQuestion_2_0 $color={color()}>{name}</SpanFormQuestion_2_0>
+      <button onClick={() => handleNumChange(1)}>↑</button>
+      <button onClick={() => handleNumChange(-1)}>↓</button>
+    </DivFormQuestion_2_0>
+  );
+};
+
+const DivFormQuestion_3 = styled.div`
+  display: flex;
+`;
+
+type Props_3 = {
+  weekConfirm: userChildTask_week;
+  setWeekConfirm(weekConfirm: userChildTask_week): void;
+};
+
+export const FormQuestion_3 = (props: Props_3) => {
+  const weekData = props.weekConfirm;
+
+  const [weekTypeIndex, setWeekTypeIndex] = useState<string>("0");
+
+  const handleChange = (row: number, isChecked: boolean) => {
+    // 「カスタム」に切り替え
+    setWeekTypeIndex(String(WEEK_OPTION.length - 1));
+    // 更新済みの配列を作成
+    const newNum = isChecked ? 1 : 0;
+    const newWeekData_receive = weekData.receive.map((num, index) => {
+      if (row === index) return newNum;
+      return num;
+    });
+
+    // 新しいデータを作成
+    const newWeekData: userChildTask_week = {
+      ...weekData,
+      receive: newWeekData_receive,
+    };
+
+    // 上位のコンポーネントで上書き
+    props.setWeekConfirm(newWeekData);
+  };
 
   const handleWeekTypeChange = (selectedIndex: number) => {
+    // Selectの状態を反映
     setWeekTypeIndex(String(selectedIndex));
-    if (weekTypes[selectedIndex].targetWeek === null) return;
+    if (WEEK_OPTION[selectedIndex].targetWeek === null) return;
 
-    const newWeekStatuses = weekStatuses.map((weekStatus) => {
-      const existWeek = weekTypes[selectedIndex].targetWeek?.findIndex(
-        (week) => {
-          return week === weekStatus.name;
-        }
+    // 平日・休日、等の設定を自動的に反映
+    const newWeekData_receive = ARRAY_WEEK.map((weekName) => {
+      const existWeek = WEEK_OPTION[selectedIndex].targetWeek?.findIndex(
+        (week) => week === weekName
       );
 
       const isExistWeek = existWeek !== -1;
-
-      return { name: weekStatus.name, isChecked: isExistWeek };
+      return isExistWeek ? 1 : 0;
     });
 
-    setWeekStatuses(newWeekStatuses);
+    // 新しいデータを作成
+    const newWeekData: userChildTask_week = {
+      ...weekData,
+      receive: newWeekData_receive,
+    };
+
+    // 上位のコンポーネントで上書き
+    props.setWeekConfirm(newWeekData);
   };
 
-  const handleChange = (row: number, isChecked: boolean) => {
-    const targetWeekIndex = weekTypes.findIndex(
-      (weekType) => weekType.targetWeek === null
-    );
-    handleWeekTypeChange(targetWeekIndex);
-
-    const newWeekStatuses = weekStatuses.map((weekStatus, index) => {
-      if (row === index) {
-        return { name: weekStatus.name, isChecked: isChecked };
-      }
-      return weekStatus;
-    });
-    setWeekStatuses(newWeekStatuses);
-  };
-
-  const handlHolidayExistChange = (isChecked: boolean) => {
-    setIsHolidayExist(isChecked);
-  };
   // 週確定
   return (
-    <>
+    <DivFormQuestion_3>
       <SelectOrigin
         onChange={(e) => handleWeekTypeChange(e.target.selectedIndex)}
         value={weekTypeIndex}
       >
-        {weekTypes.map((weekType, index) => {
+        {WEEK_OPTION.map((weekType, index) => {
           return (
             <option value={index} key={index}>
               {weekType.name}
@@ -160,30 +291,19 @@ export const FormQuestion_3 = () => {
           );
         })}
       </SelectOrigin>
-      <CheckboxOrigin $ischecked={isHolidayExist}>
-        祝日を含む
-        <input
-          type="checkbox"
-          checked={isHolidayExist}
-          onChange={(e) => handlHolidayExistChange(e.target.checked)}
-        />
-      </CheckboxOrigin>
-      <DivCheckbox>
-        {weekStatuses.map((weekStatus, row) => {
-          return (
-            <>
-              <CheckboxOrigin $ischecked={weekStatus.isChecked}>
-                {weekStatus.name}
-                <input
-                  type="checkbox"
-                  onChange={(e) => handleChange(row, e.target.checked)}
-                  checked={weekStatus.isChecked}
-                />
-              </CheckboxOrigin>
-            </>
-          );
-        })}
-      </DivCheckbox>
-    </>
+      {ARRAY_WEEK.map((weekName, row) => {
+        const isTargetChecked = weekData.receive[row] === 1;
+        return (
+          <CheckboxOrigin key={row} $ischecked={isTargetChecked}>
+            {weekName}
+            <input
+              type="checkbox"
+              onChange={(e) => handleChange(row, e.target.checked)}
+              checked={isTargetChecked}
+            />
+          </CheckboxOrigin>
+        );
+      })}
+    </DivFormQuestion_3>
   );
 };
