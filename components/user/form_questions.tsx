@@ -1,9 +1,14 @@
 "use client";
 
 import { styled } from "styled-components";
-import FormQuestionRoutine from "./form_question_routine";
 import { useState } from "react";
-import FormQuestionTime from "./form_question_time";
+import {
+  ButtonOrigin,
+  ElementIconPlus,
+  InputTextOrigin,
+} from "./htmlOriginElements";
+import FormQuestionChild from "./form_question_child";
+import { userChildTask, userTask } from "./types";
 
 const DivForm = styled.div`
   padding: 10px;
@@ -11,98 +16,88 @@ const DivForm = styled.div`
   border: 1px solid var(--color_theme_line);
 `;
 
-const DivFormSection = styled.div`
-  /* & > div { */
-  display: flex;
-  /* } */
-  & span {
-    font-size: 20px;
-    line-height: 30px;
-  }
+const LabelText = styled.p`
+  font-size: 14px;
+  color: gray;
 `;
 
-const InputText = styled.input`
-  border: 1px solid var(--color_theme_line);
-  font-size: 20px;
-  line-height: 30px;
-  height: 30px;
-`;
-
-const SelectTaskRoutines = styled.select`
-  font-size: 16px;
-  line-height: 30px;
-  height: 30px;
+const LineDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: var(--color_theme_line);
+  margin: 30px 0;
 `;
 
 const FormQuestions = () => {
-  const [userTasks, setUserTasks] = useState([{ routineIndex: 0, title: "" }]);
-  const taskRoutines = [
-    { name: "プロセス単位", question: ["何のタスクで"] },
-    { name: "日単位", question: ["何日に◯回", ""] },
-    { name: "週単位" },
-    { name: "月単位" },
-    { name: "年単位" },
-  ];
+  const [userTask, setUserTask] = useState<userTask>({
+    title: "始発電車ルーティン",
+    tasks: [{ name: "子要素のタイトル", routineIndex: 0, timeType: "week" }],
+  });
 
-  const handleRoutineChangeText = (row: number, newRoutineTitle: string) => {
-    const newUserTasks = userTasks.map((userTask, index) => {
-      if (row === index) {
-        return { routineIndex: userTask.routineIndex, title: newRoutineTitle };
-      }
-      return userTask;
+  const handleRoutineChange = (row: number, handleUserTask: userChildTask) => {
+    const newTasks = userTask.tasks.map((userChildTask, index) => {
+      if (row === index) return handleUserTask;
+      return userChildTask;
     });
-    setUserTasks(newUserTasks);
+
+    const newUserTask = { ...userTask, tasks: newTasks };
+    setUserTask(newUserTask);
   };
 
-  const handleRoutineChange = (row: number, newRoutineIndex: number) => {
-    const newUserTasks = userTasks.map((userTask, index) => {
-      if (row === index) {
-        return {
-          routineIndex: newRoutineIndex,
-          title: userTask.title,
-        };
-      }
-      return userTask;
-    });
-    setUserTasks(newUserTasks);
+  const handleTitleChange = (title: string) => {
+    const newUserTask = { ...userTask, title: title };
+    setUserTask(newUserTask);
+  };
+
+  const handleAddClick = () => {
+    const newUserChildTask: userChildTask[] = [
+      ...userTask.tasks,
+      { name: "", routineIndex: 0, timeType: "week" },
+    ];
+
+    setUserTask({ ...userTask, tasks: newUserChildTask });
+  };
+
+  const deleteUserChildTask = (row: number) => {
+    const newUserChildTask = userTask.tasks.filter(
+      (task, index) => index !== row
+    );
+
+    setUserTask({ ...userTask, tasks: newUserChildTask });
   };
 
   return (
     <DivForm>
       <div>
-        <p>タスクのタイトル</p>
-        <InputText type="text" placeholder="タスク名" />
+        <LabelText>タスクのタイトル</LabelText>
+        <InputTextOrigin
+          $fontSize={20}
+          type="text"
+          placeholder="タスク名"
+          value={userTask.title}
+          onChange={(e) => handleTitleChange(e.target.value)}
+        />
       </div>
-
-      <p>タスクの子プロセス</p>
-      {userTasks.map((userTask, index) => {
+      <LineDivider />
+      <LabelText>タスクの子プロセス</LabelText>
+      {userTask.tasks.map((userChildTask, index) => {
         return (
-          <DivFormSection key={index}>
-            <SelectTaskRoutines
-              onChange={(e) =>
-                handleRoutineChange(index, e.target.selectedIndex)
-              }
-            >
-              {taskRoutines.map((taskRoutine, index) => {
-                return (
-                  <option key={index} value={index}>
-                    {taskRoutine.name}
-                  </option>
-                );
-              })}
-            </SelectTaskRoutines>
-            <InputText
-              type="text"
-              placeholder="タスク名"
-              value={userTask.title}
-              onChange={(e) => handleRoutineChangeText(index, e.target.value)}
-            />
-
-            <FormQuestionRoutine index={userTask.routineIndex} />
-            <FormQuestionTime />
-          </DivFormSection>
+          <FormQuestionChild
+            key={index}
+            taskCount={index}
+            userChildTask={userChildTask}
+            setUserChildTask={(userChildTask) =>
+              handleRoutineChange(index, userChildTask)
+            }
+            deleteUserChildTask={() => deleteUserChildTask(index)}
+          />
         );
       })}
+      <ButtonOrigin $width={200} onClick={() => handleAddClick()}>
+        <ElementIconPlus height={28} />
+        <span>小タスクを追加</span>
+      </ButtonOrigin>
+      <button>送信する</button>
     </DivForm>
   );
 };
