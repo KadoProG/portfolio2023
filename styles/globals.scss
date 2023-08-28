@@ -1,6 +1,7 @@
 :root {
   --len__header__height: 50px;
   --color_theme_back: white;
+  --color_theme_back2: #ddd;
   --color_theme_text: black;
   --color_theme_line: gray;
 }
@@ -27,6 +28,7 @@ img {
 @media (prefers-color-scheme: dark) {
   :root {
     --color_theme_back: black;
+    --color_theme_back2: #444;
     --color_theme_text: #ddd;
   }
   img {
