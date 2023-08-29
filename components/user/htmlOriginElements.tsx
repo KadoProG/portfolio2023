@@ -62,9 +62,11 @@ export const ButtonOrigin = styled.button<{
   $width?: number;
   $height?: number;
   $inline?: boolean;
+  $radius?: number;
 }>`
   font-size: ${(props) => (props.$fontSize ? `${props.$fontSize}px` : "16px")};
   width: ${(props) => (props.$width ? `${props.$width}px` : "100%")};
+  border-radius: ${(props) => (props.$radius ? `${props.$radius}px` : "none")};
   display: flex;
   ${(props) => (props.$inline === false ? "" : "margin: 0 auto;")}
 
