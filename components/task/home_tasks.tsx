@@ -16,11 +16,12 @@ const HomeTasks = (props: Props) => {
       tasks: [
         {
           limit: 1,
+          nowCount: 0,
           countType: {
             dayCount: { type: "日", 日: 1 },
             do: "button_click",
           },
-          or: ["始発電車ルーティンあああああああああああ", "自宅朝活7カフェ"],
+          or: ["始発電車ルーティン", "自宅朝活7カフェ"],
         },
       ],
     },
@@ -30,6 +31,7 @@ const HomeTasks = (props: Props) => {
       tasks: [
         {
           limit: 3,
+          nowCount: -3,
           countType: {
             dayCount: { type: "日", 日: 1 },
             do: "submit_url",
@@ -38,6 +40,7 @@ const HomeTasks = (props: Props) => {
         },
         {
           limit: 3,
+          nowCount: 1,
           countType: {
             dayCount: { type: "日", 日: 1 },
             do: "submit_url",
@@ -46,6 +49,7 @@ const HomeTasks = (props: Props) => {
         },
         {
           limit: 1,
+          nowCount: 0,
           countType: {
             dayCount: { type: "日", 日: 1 },
             do: "button_click",

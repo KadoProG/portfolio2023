@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { ButtonOrigin } from "../user/htmlOriginElements";
+import { useState } from "react";
 
 type Props = {
   // eslint-disable-next-line
@@ -38,7 +39,7 @@ const SpanTaskName = styled.span`
   }
 `;
 
-const SpanTaskLimit = styled.span`
+const SpanTaskLimit = styled.span<{ $color?: string }>`
   min-width: 72px;
   height: 30px;
   display: inline-flex;
@@ -48,10 +49,13 @@ const SpanTaskLimit = styled.span`
   padding: 0 8px;
   margin-right: 8px;
   background: var(--color_theme_back2);
+  ${(props) => (props.$color ? `color: ${props.$color}` : "")};
 `;
 
 const HomeSoloProjectTaskItem = (props: Props) => {
   const projectTask = props.projectTask;
+  const limit = projectTask.limit;
+  const nowCount = projectTask.nowCount;
   if (projectTask.or !== undefined) {
     return (
       <>
@@ -59,18 +63,12 @@ const HomeSoloProjectTaskItem = (props: Props) => {
           // eslint-disable-next-line
           projectTask.or.map((taskName: any, index: number) => {
             return (
-              <DivHomeSoloProjectTaskItem key={index}>
-                <div>
-                  <DraggableSideButton />
-                  <SpanTaskName>{taskName}</SpanTaskName>
-                </div>
-                <div>
-                  <SpanTaskLimit>２日遅れ</SpanTaskLimit>
-                  <ButtonOrigin $width={90} $radius={5} $inline={false}>
-                    打刻する
-                  </ButtonOrigin>
-                </div>
-              </DivHomeSoloProjectTaskItem>
+              <HomeSoloProjectTaskItem_0
+                taskName={taskName}
+                key={index}
+                limit={limit}
+                nowCount={nowCount}
+              />
             );
           })
         }
@@ -79,21 +77,66 @@ const HomeSoloProjectTaskItem = (props: Props) => {
   }
 
   const taskName = projectTask.name;
+  const taskNowCount = projectTask.nowCount;
   return (
-    <>
-      <DivHomeSoloProjectTaskItem>
-        <div>
-          <DraggableSideButton />
-          <SpanTaskName>{taskName}</SpanTaskName>
-        </div>
-        <div>
-          <SpanTaskLimit>本日中</SpanTaskLimit>
-          <ButtonOrigin $width={90} $radius={5} $inline={false}>
-            打刻する
-          </ButtonOrigin>
-        </div>
-      </DivHomeSoloProjectTaskItem>
-    </>
+    <HomeSoloProjectTaskItem_0
+      taskName={taskName}
+      limit={limit}
+      nowCount={taskNowCount}
+    />
+  );
+};
+
+type HomeSoloProjectTaskItem_0Props = {
+  taskName: string;
+  limit: number;
+  nowCount: number;
+};
+
+export const HomeSoloProjectTaskItem_0 = (
+  props: HomeSoloProjectTaskItem_0Props
+) => {
+  const taskName = props.taskName;
+  const taskLimit = props.limit;
+  const nowCount = props.nowCount;
+  const [limit, setLimit] = useState<number>(nowCount);
+
+  const handleClick = () => {
+    if (limit < 0) {
+      setLimit(taskLimit);
+    } else if (limit > 0) {
+      setLimit(taskLimit);
+    } else {
+      setLimit(taskLimit + limit);
+    }
+  };
+
+  return (
+    <DivHomeSoloProjectTaskItem>
+      <div>
+        <DraggableSideButton />
+        <SpanTaskName>{taskName}</SpanTaskName>
+      </div>
+      <div>
+        <SpanTaskLimit
+          $color={limit === 0 ? "#b40984" : limit > 0 ? undefined : "red"}
+        >
+          {limit === 0
+            ? "本日中"
+            : limit > 0
+            ? `${limit}日後`
+            : `${-limit}日遅れ`}
+        </SpanTaskLimit>
+        <ButtonOrigin
+          $width={90}
+          $radius={5}
+          $inline={false}
+          onClick={handleClick}
+        >
+          打刻する
+        </ButtonOrigin>
+      </div>
+    </DivHomeSoloProjectTaskItem>
   );
 };
 
