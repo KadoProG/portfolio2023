@@ -1,9 +1,10 @@
 :root {
-  --len__header__height: 50px;
+  --len__header__height: 92px;
   --color_theme_back: white;
   --color_theme_back2: #ddd;
   --color_theme_text: black;
   --color_theme_line: gray;
+  --color_theme_joken: #45c7ff;
 }
 
 * {
@@ -11,8 +12,6 @@
   margin: 0;
   text-decoration: none;
   box-sizing: border-box;
-  color: var(--color_theme_text);
-  background: var(--color_theme_back);
   font-family:
     Open Sans,
     sans-serif;
@@ -20,18 +19,33 @@
 
 html {
   scroll-behavior: smooth;
+  color: var(--color_theme_text);
+  background: var(--color_theme_back);
+  background: url("/images/background.png");
+}
+
+main {
+  padding-top: var(--len__header__height);
 }
 
 img {
   pointer-events: none;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color_theme_back: black;
-    --color_theme_back2: #444;
-    --color_theme_text: #ddd;
-  }
-  img {
-    filter: brightness(80%);
-  }
+
+// フォント
+@font-face {
+  font-family: "yosugara";
+  src: url("/fonts/yosugaraver1_2.ttf");
 }
+
+// // ダークモード対応の処理
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --color_theme_back: black;
+//     --color_theme_back2: #444;
+//     --color_theme_text: #ddd;
+//   }
+//   img {
+//     filter: brightness(80%);
+//   }
+// }
