@@ -1,0 +1,68 @@
+{
+  "homeCard": [
+    {
+      "root": "product",
+      "title": "制作物",
+      "subTitle": "PRODUCT",
+      "color": "#56e0ff",
+      "image": "/images/my_icon_product.png"
+    },
+    {
+      "root": "event",
+      "title": "イベント",
+      "subTitle": "EVENT",
+      "color": "#56ff6a",
+      "image": "/images/my_icon_event.png"
+    },
+    {
+      "root": "blog",
+      "title": "ブログ",
+      "subTitle": "BLOG",
+      "color": "#edb8ff",
+      "image": "/images/my_icon_blog.png"
+    },
+    {
+      "root": "profile",
+      "title": "プロフィール",
+      "subTitle": "PROFILE",
+      "color": "#ffc297",
+      "image": "/images/my_icon_profile.png"
+    }
+  ],
+  "snsList": [
+    {
+      "title": "X",
+      "url": "https://twitter.com/KadoUniversity",
+      "image": "/images/my_icon_x.png"
+    },
+    {
+      "title": "YouTube",
+      "image": "/images/my_icon_youtube.png"
+    },
+    {
+      "title": "Pixiv",
+      "image": "/images/my_icon_pixiv.png"
+    },
+    {
+      "title": "GitHub",
+      "url": "https://github.com/KadoProG",
+      "image": "/images/my_icon_github.png"
+    },
+    {
+      "title": "Portfolio",
+      "image": "/images/my_icon_myself.png"
+    },
+    {
+      "title": "Instagram",
+      "url": "https://www.instagram.com/kado_universiry/",
+      "image": "/images/my_icon_instagram.png"
+    }
+  ],
+  "homeProduct": [
+    {
+      "title": "起業サークルのWebサイトを作成しました",
+      "description": "あああああああああああ",
+      "image": "/images/my_icon_blog.png"
+    }
+  ]
+}
