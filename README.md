@@ -1,8 +1,9 @@
-# ContinuationApp
+# ボツになったポートフォリオ
 
-**"Continuation is power"**. An app that records and stretches your continuous power.
+本当は、ちゃんとポートフォリオを作ろうとしていたが、いつの間にかモチベが無くなり、事実上のボツとなっている。
+私のポートフォリオというか作品は、(https://fast5-blog.com/html-product/uni-web/)[https://fast5-blog.com/html-product/uni-web/]で閲覧できます。
 
-2023/08/12 リポジトリ作成
+以下、NextJSのテンプレ
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
