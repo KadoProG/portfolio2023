@@ -1,7 +1,7 @@
 # ボツになったポートフォリオ
 
 本当は、ちゃんとポートフォリオを作ろうとしていたが、いつの間にかモチベが無くなり、事実上のボツとなっている。
-私のポートフォリオというか作品は、(https://fast5-blog.com/html-product/uni-web/)[https://fast5-blog.com/html-product/uni-web/]で閲覧できます。
+私のポートフォリオというか作品は、[https://fast5-blog.com/html-product/uni-web/](https://fast5-blog.com/html-product/uni-web/)で閲覧できます。
 
 以下、NextJSのテンプレ
 
